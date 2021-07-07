@@ -7,11 +7,13 @@ import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @ApiModel(description = "All the details related to Account")
+@XmlRootElement //to support xml based req and res
 public class AccountDto {
 
     @ApiModelProperty(notes = "The account id", hidden = true)

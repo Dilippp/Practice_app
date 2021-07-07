@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AppConstants {
 
-    public static final String BASE_URI = "/rest/v1";
     public static final String SUCCESS = "Processed successfully";
     public static final String CREATED_SUCCESSFULLY = "Successfully record created";
     public static final String DELETED_SUCCESSFULLY = "Deleted record successfully";

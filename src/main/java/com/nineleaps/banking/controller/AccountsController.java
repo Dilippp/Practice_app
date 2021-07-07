@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class AccountsController {
     private final AccountsService accountsService;
     private final AccountMapper accountMapper;
 
-    @GetMapping("/accounts")
+    @GetMapping(value = "/accounts", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch all accounts from the system")
     @ApiResponses(value = {
@@ -47,7 +48,7 @@ public class AccountsController {
         return allAccounts.stream().map(accountMapper::toDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/accounts/{id}")
+    @GetMapping(value = "/accounts/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch an account from the system")
     @ApiResponses(value = {
@@ -61,7 +62,8 @@ public class AccountsController {
         return accountMapper.toDto(accountsService.getAccountById(id));
     }
 
-    @PostMapping("/accounts")
+    @PostMapping(value = "/accounts", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.CREATED)
     @ApiOperation(value = "Create a new account")
     @ApiResponses(value = {
@@ -76,7 +78,8 @@ public class AccountsController {
         return accountMapper.toDto(accountsService.createOrUpdateAccount(accountDto));
     }
 
-    @PutMapping("/accounts/{id}")
+    @PutMapping(value = "/accounts/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Update the existing account")
     @ApiResponses(value = {
@@ -93,7 +96,7 @@ public class AccountsController {
         return accountMapper.toDto(accountsService.createOrUpdateAccount(accountDto));
     }
 
-    @DeleteMapping(value = "/accounts/{id}")
+    @DeleteMapping(value = "/accounts/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Delete an account from system")
     @ApiResponses(value = {

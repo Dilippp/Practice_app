@@ -1,6 +1,8 @@
 package com.nineleaps.banking.controller;
 
+import com.nineleaps.banking.dto.AccountDto;
 import com.nineleaps.banking.entity.Account;
+import com.nineleaps.banking.mapper.AccountMapper;
 import com.nineleaps.banking.service.AccountsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,32 +14,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 public class AccountsController {
 
     private final AccountsService accountsService;
+    private final AccountMapper accountMapper;
 
     @GetMapping("/accounts")
-    public List<Account> getAccounts() {
-        return accountsService.getAllAccounts();
+    public List<AccountDto> getAccounts() {
+        List<Account> allAccounts = accountsService.getAllAccounts();
+        return allAccounts.stream().map(accountMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/accounts/{id}")
-    public Account find(@PathVariable("id") Integer id) {
-        return accountsService.getAccountById(id);
+    public AccountDto find(@PathVariable("id") Integer id) {
+        return accountMapper.toDto(accountsService.getAccountById(id));
     }
 
     @PostMapping("/accounts")
-    public Account create(@RequestBody Account account) {
-        return accountsService.createOrUpdateAccount(account);
+    public AccountDto create(@RequestBody AccountDto accountDto) {
+        return accountMapper.toDto(accountsService.createOrUpdateAccount(accountDto));
     }
 
     @PutMapping("/accounts/{id}")
-    public Account update(@RequestBody Account account, @PathVariable("id") Integer id) {
-        account.setId(id);
-        return accountsService.createOrUpdateAccount(account);
+    public AccountDto update(@RequestBody AccountDto accountDto, @PathVariable("id") Integer id) {
+        accountDto.setId(id);
+        return accountMapper.toDto(accountsService.createOrUpdateAccount(accountDto));
     }
 
     @DeleteMapping(value = "/accounts/{id}")

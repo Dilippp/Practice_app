@@ -2,6 +2,8 @@ package com.nineleaps.banking.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +29,7 @@ public class Transaction extends AbstractModel {
     schema = "dilip",
     allocationSize = 1,
     initialValue = 1)
+    @Column(name = "transaction_id")
     private Integer id;
 
     @Column(name = "transaction_type", nullable = false, updatable = false)
@@ -38,7 +41,8 @@ public class Transaction extends AbstractModel {
     @Column(name = "description", length = 1000)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "account_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Account account;
 }

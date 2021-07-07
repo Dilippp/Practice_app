@@ -25,6 +25,7 @@ public class Account extends AbstractModel {
             schema = "dilip",
             allocationSize = 1,
             initialValue = 1)
+    @Column(name = "account_id")
     private Integer id;
 
     @Column(name = "account_name", nullable = false, updatable = false)

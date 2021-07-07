@@ -1,6 +1,8 @@
 package com.nineleaps.banking.service;
 
+import com.nineleaps.banking.dto.AccountDto;
 import com.nineleaps.banking.entity.Account;
+import com.nineleaps.banking.mapper.AccountMapper;
 import com.nineleaps.banking.repository.AccountsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import java.util.List;
 public class AccountsService {
 
     private final AccountsRepository accountsRepository;
+    private final AccountMapper accountMapper;
 
     public List<Account> getAllAccounts() {
         log.info("Fetching all accounts");
@@ -27,8 +30,8 @@ public class AccountsService {
     }
 
     @Transactional
-    public Account createOrUpdateAccount(Account account) {
-        return accountsRepository.save(account);
+    public Account createOrUpdateAccount(AccountDto accountDto) {
+        return accountsRepository.save(accountMapper.toEntity(accountDto));
     }
 
     @Transactional

@@ -2,8 +2,8 @@ package com.nineleaps.banking.service;
 
 import com.nineleaps.banking.dto.AccountDto;
 import com.nineleaps.banking.dto.TransactionDto;
-import com.nineleaps.banking.entity.Account;
 import com.nineleaps.banking.entity.Transaction;
+import com.nineleaps.banking.exception.ResourceNotFoundException;
 import com.nineleaps.banking.mapper.AccountMapper;
 import com.nineleaps.banking.mapper.TransactionMapper;
 import com.nineleaps.banking.repository.TransactionsRepository;
@@ -11,8 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Service
 @Slf4j
@@ -31,7 +37,7 @@ public class TransactionsService {
 
     public Transaction getTransactionById(Integer id) {
         return transactionsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Transaction doesn't exit with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Transaction doesn't exit with id: " + id));
     }
 
     @Transactional
@@ -50,10 +56,21 @@ public class TransactionsService {
     }
 
     public List<Transaction> findByAccountId(Integer id) {
-        return transactionsRepository.findByAccountId(id);
+
+        List<Transaction> transactions = transactionsRepository.findByAccountId(id);
+        if(!isEmpty(transactions)) {
+            return transactions;
+        }
+        throw new ResourceNotFoundException("Transactions not found with accountId: "+ id);
     }
 
     public Transaction findByAccountIdAndTransactionId(Integer accountId, Integer transactionId) {
-        return transactionsRepository.findByAccountIdAndId(accountId, transactionId);
+
+        Transaction transaction = transactionsRepository.findByAccountIdAndId(accountId, transactionId);
+        if(Objects.nonNull(transaction)) {
+            return transaction;
+        }
+        throw new ResourceNotFoundException("Transaction not found with accountId: "
+                + accountId +" and transactionId: "+ transactionId);
     }
 }

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
@@ -24,7 +25,8 @@ public class AccountDto {
     @ApiModelProperty(notes = "Account type")
     private String type;
 
-    @NotBlank(message="Account opening date cannot be empty.")
+    @NotBlank(message="Account opening date cannot be null")
     @ApiModelProperty(notes = "Account opening date")
+    @Valid
     private LocalDate openDate;
 }

@@ -31,6 +31,5 @@ public class TransactionDto {
     private String description;
 
     @ApiModelProperty(notes = "Associated account in transaction")
-    @Valid
     private AccountDto accountDto;
 }

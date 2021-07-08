@@ -2,6 +2,7 @@ package com.nineleaps.banking.controller;
 
 import com.nineleaps.banking.constant.AppConstants;
 import com.nineleaps.banking.dto.AccountDto;
+import com.nineleaps.banking.dto.AccountDtos;
 import com.nineleaps.banking.entity.Account;
 import com.nineleaps.banking.mapper.AccountMapper;
 import com.nineleaps.banking.service.AccountsService;
@@ -43,9 +44,18 @@ public class AccountsController {
             @ApiResponse(code = 404, message = AppConstants.RESOURCE_NOT_FOUND),
             @ApiResponse(code = 500, message = AppConstants.INTERNAL_SERVER_ERROR)
     })
-    public List<AccountDto> getAccounts() {
+    public AccountDtos getAccounts() {
         List<Account> allAccounts = accountsService.getAllAccounts();
-        return allAccounts.stream().map(accountMapper::toDto).collect(Collectors.toList());
+
+        AccountDtos accountDtos = AccountDtos
+                .builder()
+                .build();
+
+        accountDtos.setAccountDto(allAccounts
+                        .stream()
+                        .map(accountMapper::toDto)
+                        .collect(Collectors.toList()));
+        return accountDtos;
     }
 
     @GetMapping(value = "/accounts/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

@@ -2,6 +2,7 @@ package com.nineleaps.banking.controller;
 
 import com.nineleaps.banking.constant.AppConstants;
 import com.nineleaps.banking.dto.TransactionDto;
+import com.nineleaps.banking.dto.TransactionDtos;
 import com.nineleaps.banking.entity.Transaction;
 import com.nineleaps.banking.mapper.TransactionMapper;
 import com.nineleaps.banking.service.TransactionsService;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +34,8 @@ public class TransactionsController {
     private final TransactionsService transactionsService;
     private final TransactionMapper transactionMapper;
 
-    @GetMapping("/transactions")
+    @GetMapping(value = "/transactions",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch all transactions from the system")
     @ApiResponses(value = {
@@ -42,12 +45,21 @@ public class TransactionsController {
             @ApiResponse(code = 404, message = AppConstants.RESOURCE_NOT_FOUND),
             @ApiResponse(code = 500, message = AppConstants.INTERNAL_SERVER_ERROR)
     })
-    public List<TransactionDto> getTransactions() {
+    public TransactionDtos getTransactions() {
         List<Transaction> allTransactions = transactionsService.getAllTransactions();
-        return allTransactions.stream().map(transactionMapper::toDto).collect(Collectors.toList());
+
+        TransactionDtos transactionDtos = TransactionDtos
+                .builder()
+                .build();
+        transactionDtos.setTransactionDto(allTransactions
+                .stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList()));
+        return transactionDtos;
     }
 
-    @GetMapping("/transactions/{id}")
+    @GetMapping(value = "/transactions/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch single transaction")
     @ApiResponses(value = {
@@ -61,7 +73,8 @@ public class TransactionsController {
         return transactionMapper.toDto(transactionsService.getTransactionById(id));
     }
 
-    @GetMapping("/accounts/{id}/transactions")
+    @GetMapping(value = "/accounts/{id}/transactions",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch all transactions for an account")
     @ApiResponses(value = {
@@ -71,12 +84,14 @@ public class TransactionsController {
             @ApiResponse(code = 404, message = AppConstants.RESOURCE_NOT_FOUND),
             @ApiResponse(code = 500, message = AppConstants.INTERNAL_SERVER_ERROR)
     })
-    public List<TransactionDto> findByAccountId(@PathVariable("id") Integer id) {
-        return transactionsService.findByAccountId(id).stream()
+    public TransactionDtos findByAccountId(@PathVariable("id") Integer id) {
+        List<TransactionDto> transactionDtos = transactionsService.findByAccountId(id).stream()
                 .map(transactionMapper::toDto).collect(Collectors.toList());
+        return TransactionDtos.builder().transactionDto(transactionDtos).build();
     }
 
-    @GetMapping("/accounts/{accountId}/transactions/{transactionId}")
+    @GetMapping(value = "/accounts/{accountId}/transactions/{transactionId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch single transaction for an account")
     @ApiResponses(value = {
@@ -92,7 +107,9 @@ public class TransactionsController {
                 .findByAccountIdAndTransactionId(accountId, transactionId));
     }
 
-    @PostMapping("/transactions")
+    @PostMapping(value = "/transactions",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.CREATED)
     @ApiOperation(value = "Create new transaction")
     @ApiResponses(value = {
@@ -107,7 +124,9 @@ public class TransactionsController {
         return transactionMapper.toDto(transactionsService.createOrUpdateTransaction(transactionDto));
     }
 
-    @PutMapping("/transactions/{id}")
+    @PutMapping(value = "/transactions/{id}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Update the existing transaction")
     @ApiResponses(value = {
@@ -124,7 +143,8 @@ public class TransactionsController {
         return transactionMapper.toDto(transactionsService.createOrUpdateTransaction(transactionDto));
     }
 
-    @DeleteMapping(value = "/transactions/{id}")
+    @DeleteMapping(value = "/transactions/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Delete a single transaction")
     @ApiResponses(value = {

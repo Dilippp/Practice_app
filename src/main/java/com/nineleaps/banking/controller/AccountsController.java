@@ -34,7 +34,8 @@ public class AccountsController {
     private final AccountsService accountsService;
     private final AccountMapper accountMapper;
 
-    @GetMapping(value = "/accounts", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/accounts",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch all accounts from the system")
     @ApiResponses(value = {
@@ -50,7 +51,6 @@ public class AccountsController {
         AccountDtos accountDtos = AccountDtos
                 .builder()
                 .build();
-
         accountDtos.setAccountDto(allAccounts
                         .stream()
                         .map(accountMapper::toDto)
@@ -58,7 +58,8 @@ public class AccountsController {
         return accountDtos;
     }
 
-    @GetMapping(value = "/accounts/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/accounts/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Fetch an account from the system")
     @ApiResponses(value = {
@@ -72,7 +73,8 @@ public class AccountsController {
         return accountMapper.toDto(accountsService.getAccountById(id));
     }
 
-    @PostMapping(value = "/accounts", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    @PostMapping(value = "/accounts",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.CREATED)
     @ApiOperation(value = "Create a new account")
@@ -88,7 +90,8 @@ public class AccountsController {
         return accountMapper.toDto(accountsService.createOrUpdateAccount(accountDto));
     }
 
-    @PutMapping(value = "/accounts/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+    @PutMapping(value = "/accounts/{id}",
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.OK)
     @ApiOperation(value = "Update the existing account")
@@ -106,7 +109,8 @@ public class AccountsController {
         return accountMapper.toDto(accountsService.createOrUpdateAccount(accountDto));
     }
 
-    @DeleteMapping(value = "/accounts/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @DeleteMapping(value = "/accounts/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @ApiOperation(value = "Delete an account from system")
     @ApiResponses(value = {

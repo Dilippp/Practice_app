@@ -6,15 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Getter
 @Setter
-@ApiModel(description = "All the details related to Transaction")
-@XmlRootElement //to support xml based req and res
+@ApiModel(value = "transactionDto", description = "All the details related to Transaction")
+@XmlRootElement(name = "transactionDto") //to support xml based req and res
 public class TransactionDto {
 
     @ApiModelProperty(notes = "The transaction id", hidden = true)

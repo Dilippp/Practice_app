@@ -9,12 +9,12 @@ import lombok.Setter;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name = "accountDtos")
+@XmlRootElement(name = "transactionDtos")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDtos {
-    private List<AccountDto> accountDto;
+public class TransactionDtos {
+    private List<TransactionDto> transactionDto;
 }

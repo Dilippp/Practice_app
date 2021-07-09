@@ -1,10 +1,9 @@
 package com.nineleaps.banking.config;
 
+import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationVersion;
-
-import javax.sql.DataSource;
 
 @RequiredArgsConstructor
 public abstract class AbstractFlywayConfiguration {

@@ -18,8 +18,6 @@ public class ServiceHealthIndicator implements HealthIndicator {
 
     private int check() {
         // perform some specific health check (e.g. db health check)
-        return 0; //for up otherwise down
+        return 0; // for up otherwise down
     }
 }
-
-

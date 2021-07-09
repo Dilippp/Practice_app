@@ -1,11 +1,10 @@
 package com.nineleaps.banking.exception;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Setter
 @Getter

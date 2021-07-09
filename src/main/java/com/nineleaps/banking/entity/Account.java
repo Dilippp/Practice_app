@@ -1,16 +1,14 @@
 package com.nineleaps.banking.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.time.LocalDate;
-
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "accounts", schema = "bank")
@@ -20,7 +18,8 @@ public class Account extends AbstractModel {
 
     @Id
     @GeneratedValue(generator = "account_gen")
-    @SequenceGenerator(name = "account_gen",
+    @SequenceGenerator(
+            name = "account_gen",
             sequenceName = "account_seq",
             schema = "bank",
             allocationSize = 1,

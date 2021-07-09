@@ -7,8 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-    injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(
+        componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface TransactionMapper extends ModelMapper<Transaction, TransactionDto> {
 
     @Override

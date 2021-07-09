@@ -6,7 +6,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+@Mapper(
+        componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface AccountMapper extends ModelMapper<Account, AccountDto> {
-}
+public interface AccountMapper extends ModelMapper<Account, AccountDto> {}

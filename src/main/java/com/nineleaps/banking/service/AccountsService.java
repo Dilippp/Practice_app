@@ -5,12 +5,11 @@ import com.nineleaps.banking.entity.Account;
 import com.nineleaps.banking.exception.ResourceNotFoundException;
 import com.nineleaps.banking.mapper.AccountMapper;
 import com.nineleaps.banking.repository.AccountsRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -26,8 +25,10 @@ public class AccountsService {
     }
 
     public Account getAccountById(Integer id) {
-        return accountsRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Account doesn't exit with id: " + id));
+        return accountsRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Account doesn't exit with id: " + id));
     }
 
     @Transactional
@@ -38,7 +39,7 @@ public class AccountsService {
     @Transactional
     public void deleteAccount(Integer id) {
 
-        if(getAccountById(id) != null) {
+        if (getAccountById(id) != null) {
             accountsRepository.deleteById(id);
         }
     }

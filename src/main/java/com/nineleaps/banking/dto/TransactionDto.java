@@ -2,24 +2,23 @@ package com.nineleaps.banking.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-
 @Getter
 @Setter
 @ApiModel(value = "transactionDto", description = "All the details related to Transaction")
-@XmlRootElement(name = "transactionDto") //to support xml based req and res
+@XmlRootElement(name = "transactionDto") // to support xml based req and res
 public class TransactionDto {
 
     @ApiModelProperty(notes = "The transaction id", hidden = true)
     private Integer id;
 
-    @NotBlank(message="Transaction type cannot be empty.")
+    @NotBlank(message = "Transaction type cannot be empty.")
     @ApiModelProperty(notes = "Transaction type")
     private String type;
 

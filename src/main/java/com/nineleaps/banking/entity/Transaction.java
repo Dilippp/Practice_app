@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "transactions", schema = "dilip")
+@Table(name = "transactions", schema = "bank")
 @Setter
 @Getter
 public class Transaction extends AbstractModel {
@@ -26,7 +26,7 @@ public class Transaction extends AbstractModel {
     @GeneratedValue(generator = "transaction_gen")
     @SequenceGenerator(name = "transaction_gen",
     sequenceName = "transaction_seq",
-    schema = "dilip",
+    schema = "bank",
     allocationSize = 1,
     initialValue = 1)
     @Column(name = "transaction_id")

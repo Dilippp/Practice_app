@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "accounts", schema = "dilip")
+@Table(name = "accounts", schema = "bank")
 @Getter
 @Setter
 public class Account extends AbstractModel {
@@ -22,7 +22,7 @@ public class Account extends AbstractModel {
     @GeneratedValue(generator = "account_gen")
     @SequenceGenerator(name = "account_gen",
             sequenceName = "account_seq",
-            schema = "dilip",
+            schema = "bank",
             allocationSize = 1,
             initialValue = 1)
     @Column(name = "account_id")

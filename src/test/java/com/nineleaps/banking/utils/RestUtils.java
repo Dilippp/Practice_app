@@ -22,7 +22,7 @@ public class RestUtils {
     private static final String USER_GUID_HEADER = "X-User-GUID";
     @Getter private final ObjectMapper objectMapper;
     private int localServerPort;
-    @Getter @Setter protected String userGuidHeaderValue;
+    @Getter @Setter protected String userGuidHeaderValue = "";
 
     public RestUtils(int localServerPort) {
         this.objectMapper = new ObjectMapper();
@@ -79,5 +79,15 @@ public class RestUtils {
                 .put("http://localhost:" + localServerPort + endpoint)
                 .then()
                 .statusCode(responseCode);
+    }
+
+    public ValidatableResponse get(String endpoint) {
+        return RestAssured.given()
+                .with()
+                .contentType(APPLICATION_JSON_VALUE)
+                .header(USER_GUID_HEADER, userGuidHeaderValue)
+                .get("http://localhost:" + localServerPort + endpoint)
+                .then()
+                .statusCode(200);
     }
 }

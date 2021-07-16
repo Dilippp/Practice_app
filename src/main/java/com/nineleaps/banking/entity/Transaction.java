@@ -18,7 +18,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "transactions", schema = "bank")
 @Setter
 @Getter
-public class Transaction extends AbstractModel {
+public class Transaction extends AbstractModel<String> {
 
     @Id
     @GeneratedValue(generator = "transaction_gen")

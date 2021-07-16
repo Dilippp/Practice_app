@@ -1,8 +1,12 @@
 package com.nineleaps.banking.utils;
 
-import java.util.function.Predicate;
+import static lombok.AccessLevel.PRIVATE;
 
-public class ArraysHelper {
+import java.util.function.Predicate;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = PRIVATE)
+public final class ArraysHelper {
 
     /** Find the element that matches the given matcher. */
     public static <T> T find(T[] arr, Predicate<T> matcher) {

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "accounts", schema = "bank")
 @Getter
 @Setter
-public class Account extends AbstractModel {
+public class Account extends AbstractModel<String> {
 
     @Id
     @GeneratedValue(generator = "account_gen")

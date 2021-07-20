@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,11 +29,13 @@ public class TransactionsService {
     private final TransactionMapper transactionMapper;
     private final AccountMapper accountMapper;
 
+    @Cacheable(value = "transactions")
     public List<Transaction> getAllTransactions() {
         log.info("Fetching all transactions");
         return transactionsRepository.findAll();
     }
 
+    @Cacheable(value = "transaction")
     public Transaction getTransactionById(Integer id) {
         return transactionsRepository
                 .findById(id)
@@ -41,6 +46,11 @@ public class TransactionsService {
     }
 
     @Transactional
+    @Caching(
+            evict = {
+                @CacheEvict(value = "transaction", allEntries = true),
+                @CacheEvict(value = "transactions", allEntries = true)
+            })
     public Transaction createOrUpdateTransaction(TransactionDto transactionDto) {
         AccountDto accountDto =
                 accountMapper.toDto(
@@ -50,6 +60,11 @@ public class TransactionsService {
     }
 
     @Transactional
+    @Caching(
+            evict = {
+                @CacheEvict(value = "transaction", allEntries = true),
+                @CacheEvict(value = "transactions", allEntries = true)
+            })
     public void deleteTransaction(Integer id) {
         log.info("Deleting transaction for id: {}", id);
         if (getTransactionById(id) != null) {
@@ -57,6 +72,7 @@ public class TransactionsService {
         }
     }
 
+    @Cacheable(value = "transactions")
     public List<Transaction> findByAccountId(Integer id) {
 
         List<Transaction> transactions = transactionsRepository.findByAccountId(id);
@@ -66,6 +82,7 @@ public class TransactionsService {
         throw new ResourceNotFoundException("Transactions not found with accountId: " + id);
     }
 
+    @Cacheable(value = "transaction")
     public Transaction findByAccountIdAndTransactionId(Integer accountId, Integer transactionId) {
 
         Transaction transaction =

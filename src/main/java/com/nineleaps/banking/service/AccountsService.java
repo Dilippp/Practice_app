@@ -1,5 +1,6 @@
 package com.nineleaps.banking.service;
 
+import com.nineleaps.banking.annotation.APIRetryable;
 import com.nineleaps.banking.dto.AccountDto;
 import com.nineleaps.banking.entity.Account;
 import com.nineleaps.banking.exception.ResourceNotFoundException;
@@ -57,5 +58,10 @@ public class AccountsService {
         if (getAccountById(id) != null) {
             accountsRepository.deleteById(id);
         }
+    }
+
+    @APIRetryable
+    public void fetchAccountsFromAnotherService() {
+        throw new RuntimeException("Service not available at the moment");
     }
 }

@@ -129,4 +129,21 @@ public class AccountsController {
     public void delete(@PathVariable("id") Integer id) {
         accountsService.deleteAccount(id);
     }
+
+    @GetMapping(
+            value = "/accounts/external",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Fetch all accounts from another service")
+    @ApiResponses(
+            value = {
+                @ApiResponse(code = 200, message = AppConstants.SUCCESS),
+                @ApiResponse(code = 401, message = AppConstants.UNAUTHORIZED_ACCESS),
+                @ApiResponse(code = 403, message = AppConstants.ACCESS_FORBIDDEN),
+                @ApiResponse(code = 404, message = AppConstants.RESOURCE_NOT_FOUND),
+                @ApiResponse(code = 500, message = AppConstants.INTERNAL_SERVER_ERROR)
+            })
+    public void fetchAccountsFromAnotherService() {
+        accountsService.fetchAccountsFromAnotherService();
+    }
 }

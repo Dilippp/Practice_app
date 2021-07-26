@@ -15,6 +15,10 @@ export interface AccountDtos {
     accountDto: AccountDto[];
 }
 
+export interface CommentDto {
+    text: string;
+}
+
 /**
  * All the details related to Transaction
  */

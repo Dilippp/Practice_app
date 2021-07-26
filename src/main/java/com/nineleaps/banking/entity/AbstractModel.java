@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AbstractModel<U> {
+public abstract class AbstractModel<U> extends Identifiable<Integer> {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate

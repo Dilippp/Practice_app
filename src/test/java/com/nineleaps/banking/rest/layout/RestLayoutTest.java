@@ -25,6 +25,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 @SpringBootTest(
         classes = BankingAppApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+// @ActiveProfiles("integration")
 public class RestLayoutTest extends BasicIntegrationTest {
 
     @LocalServerPort protected int port;

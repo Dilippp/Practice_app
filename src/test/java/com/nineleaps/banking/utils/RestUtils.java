@@ -22,7 +22,7 @@ public class RestUtils {
     private static final String USER_GUID_HEADER = "X-User-GUID";
     @Getter private final ObjectMapper objectMapper;
     private int localServerPort;
-    @Getter @Setter protected String userGuidHeaderValue = "";
+    @Getter @Setter protected String userGuidHeaderValue = "service";
 
     public RestUtils(int localServerPort) {
         this.objectMapper = new ObjectMapper();

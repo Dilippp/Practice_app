@@ -5,6 +5,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,6 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+@ConditionalOnProperty(name = {"swagger.base.package.scan", "swagger.api.vendor.name"})
 public class SwaggerConfig {
 
     @Value("${swagger.base.package.scan}")

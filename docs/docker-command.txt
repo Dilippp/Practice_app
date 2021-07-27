@@ -1,0 +1,2 @@
+To enable root privileges:
+sudo chmod a+rw /var/run/docker.sock

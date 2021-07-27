@@ -6,10 +6,12 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import net.javacrumbs.shedlock.core.LockAssert;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(name = "cron.schedule.report")
 public class ReportService {
 
     @Scheduled(cron = "${cron.schedule.report}")

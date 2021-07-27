@@ -1,0 +1,18 @@
+{ [/error], produces [text/html]}
+{ [/error]}
+{DELETE [/accounts/{id}], produces [application/json || application/xml]}
+{DELETE [/transactions/{id}], produces [application/json || application/xml]}
+{GET [/accounts/external], produces [application/json || application/xml]}
+{GET [/accounts/{accountId}/transactions/{transactionId}], produces [application/json || application/xml]}
+{GET [/accounts/{id}/transactions], produces [application/json || application/xml]}
+{GET [/accounts/{id}], produces [application/json || application/xml]}
+{GET [/accounts], produces [application/json || application/xml]}
+{GET [/characteristics/{type}], produces [application/json || application/xml]}
+{GET [/items/{name}], produces [application/json || application/xml]}
+{GET [/transactions/{id}], produces [application/json || application/xml]}
+{GET [/transactions], produces [application/json || application/xml]}
+{POST [/accounts], consumes [application/json || application/xml], produces [application/json || application/xml]}
+{POST [/comments/{id}], consumes [application/json || application/xml], produces [application/json || application/xml]}
+{POST [/transactions], consumes [application/json || application/xml], produces [application/json || application/xml]}
+{PUT [/accounts/{id}], consumes [application/json || application/xml], produces [application/json || application/xml]}
+{PUT [/transactions/{id}], consumes [application/json || application/xml], produces [application/json || application/xml]}

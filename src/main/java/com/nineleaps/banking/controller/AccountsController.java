@@ -6,14 +6,22 @@ import com.nineleaps.banking.dto.AccountDtos;
 import com.nineleaps.banking.entity.Account;
 import com.nineleaps.banking.mapper.AccountMapper;
 import com.nineleaps.banking.service.AccountsService;
+import com.nineleaps.banking.utils.specifications.SearchBuilder;
+import com.nineleaps.banking.utils.specifications.Sorter;
+import com.nineleaps.banking.utils.specifications.StringFieldSpecification;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,6 +62,69 @@ public class AccountsController {
         accountDtos.setAccountDto(
                 allAccounts.stream().map(accountMapper::toDto).collect(Collectors.toList()));
         return accountDtos;
+    }
+
+    @GetMapping(
+            value = "/accounts/search",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Search, Filter, Sort, Paginate accounts")
+    @ApiResponses(
+            value = {
+                @ApiResponse(code = 200, message = AppConstants.SUCCESS),
+                @ApiResponse(code = 401, message = AppConstants.UNAUTHORIZED_ACCESS),
+                @ApiResponse(code = 403, message = AppConstants.ACCESS_FORBIDDEN),
+                @ApiResponse(code = 404, message = AppConstants.RESOURCE_NOT_FOUND),
+                @ApiResponse(code = 500, message = AppConstants.INTERNAL_SERVER_ERROR)
+            })
+    public Page<AccountDtos> findAll(
+            Pageable pageable,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "type", required = false) String type) {
+
+        Specification<Account> specification =
+                Specification.where(new StringFieldSpecification<Account>("name", name))
+                        .and(new StringFieldSpecification<>("type", type));
+
+        Page<Account> page = accountsService.findAll(specification, pageable);
+
+        AccountDtos accountDtos = AccountDtos.builder().build();
+        accountDtos.setAccountDto(
+                page.getContent().stream().map(accountMapper::toDto).collect(Collectors.toList()));
+
+        return new PageImpl<>(List.of(accountDtos), page.getPageable(), page.getTotalElements());
+    }
+
+    @GetMapping(
+            value = "/accounts/filter",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiOperation(value = "Search, Filter, Sort, Paginate accounts")
+    @ApiResponses(
+            value = {
+                @ApiResponse(code = 200, message = AppConstants.SUCCESS),
+                @ApiResponse(code = 401, message = AppConstants.UNAUTHORIZED_ACCESS),
+                @ApiResponse(code = 403, message = AppConstants.ACCESS_FORBIDDEN),
+                @ApiResponse(code = 404, message = AppConstants.RESOURCE_NOT_FOUND),
+                @ApiResponse(code = 500, message = AppConstants.INTERNAL_SERVER_ERROR)
+            })
+    public Page<AccountDtos> findAll(
+            Pageable pageable, @RequestBody Map<String, String> queryParams) {
+
+        // specification
+        SearchBuilder<Account> searchBuilder = new SearchBuilder<>();
+        Specification<Account> specification = searchBuilder.search(queryParams);
+
+        // sort
+        Pageable sortedPageable = Sorter.sort(queryParams, pageable);
+
+        Page<Account> page = accountsService.findAll(specification, sortedPageable);
+
+        AccountDtos accountDtos = AccountDtos.builder().build();
+        accountDtos.setAccountDto(
+                page.getContent().stream().map(accountMapper::toDto).collect(Collectors.toList()));
+
+        return new PageImpl<>(List.of(accountDtos), page.getPageable(), page.getTotalElements());
     }
 
     @GetMapping(

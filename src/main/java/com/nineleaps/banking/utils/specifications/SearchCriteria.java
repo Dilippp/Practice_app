@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class SearchCriteria {
 
-    private String key;
-    private String operation;
-    private Object value;
+    private final String key;
+    private final String operation;
+    private final Object value;
 
     public SearchCriteria(String key, String operation, Object value) {
         this.key = key;

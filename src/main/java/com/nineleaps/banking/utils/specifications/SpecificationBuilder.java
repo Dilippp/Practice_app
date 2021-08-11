@@ -34,7 +34,7 @@ public class SpecificationBuilder {
                 result = Specification.where(result).or(specs.get(i));
             }
         } else {
-            for (int i = 0; i < specs.size(); i++) {
+            for (int i = 1; i < specs.size(); i++) {
                 result = Specification.where(result).and(specs.get(i));
             }
         }

@@ -3,6 +3,8 @@
 {DELETE [/accounts/{id}], produces [application/json || application/xml]}
 {DELETE [/transactions/{id}], produces [application/json || application/xml]}
 {GET [/accounts/external], produces [application/json || application/xml]}
+{GET [/accounts/filter], produces [application/json || application/xml]}
+{GET [/accounts/search], produces [application/json || application/xml]}
 {GET [/accounts/{accountId}/transactions/{transactionId}], produces [application/json || application/xml]}
 {GET [/accounts/{id}/transactions], produces [application/json || application/xml]}
 {GET [/accounts/{id}], produces [application/json || application/xml]}

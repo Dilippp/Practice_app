@@ -40,7 +40,7 @@ public class Sorter {
     private Pageable multidimensionalSort(
             Map<String, String> queryParameters, Pageable pageable, boolean isProjection) {
         if (queryParameters.containsKey("sort")) {
-            Pattern pattern = Pattern.compile("([.\\w]+?)(,|<|>)(\\w+?):");
+            Pattern pattern = Pattern.compile("([.\\w]+?)([,<>])(\\w+?):");
             String sort = queryParameters.get("sort");
             if (sort != null) {
                 Sort sortArray = Sort.unsorted();

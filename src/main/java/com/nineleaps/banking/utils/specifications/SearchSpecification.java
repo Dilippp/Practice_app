@@ -1,9 +1,8 @@
 package com.nineleaps.banking.utils.specifications;
 
 import com.nineleaps.banking.exception.BadRequestException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -21,7 +20,7 @@ public class SearchSpecification<T> implements Specification<T> {
     @Override
     public Predicate toPredicate(
             Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        if (root.get(criteria.getKey()).getJavaType() == Date.class) {
+        if (root.get(criteria.getKey()).getJavaType() == LocalDate.class) {
             return getDateBasedPredicate(root, criteriaBuilder);
         } else {
             return getPredicate(root, criteriaBuilder);
@@ -55,7 +54,7 @@ public class SearchSpecification<T> implements Specification<T> {
     }
 
     private Predicate getDateBasedPredicate(Root<T> root, CriteriaBuilder builder) {
-        Date date = getDate();
+        LocalDate date = getDate();
         switch (criteria.getOperation()) {
             case ">":
                 return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), date);
@@ -68,11 +67,11 @@ public class SearchSpecification<T> implements Specification<T> {
         }
     }
 
-    private Date getDate() {
+    private LocalDate getDate() {
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            return formatter.parse(criteria.getValue().toString());
-        } catch (ParseException e) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return LocalDate.parse(criteria.getValue().toString(), dtf);
+        } catch (Exception e) {
             throw new IllegalArgumentException(
                     criteria.getValue().toString() + ": date should be of the format yyyy-MM-dd");
         }

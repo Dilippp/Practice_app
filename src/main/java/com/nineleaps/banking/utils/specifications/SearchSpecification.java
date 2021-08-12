@@ -69,7 +69,7 @@ public class SearchSpecification<T> implements Specification<T> {
 
     private LocalDate getDate() {
         try {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
             return LocalDate.parse(criteria.getValue().toString(), dtf);
         } catch (Exception e) {
             throw new IllegalArgumentException(

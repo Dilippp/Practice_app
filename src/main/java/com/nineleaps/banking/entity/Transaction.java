@@ -31,6 +31,7 @@ public class Transaction extends AbstractModel<String> {
     @Column(name = "transaction_id")
     private Integer id;
 
+    //dsdsd
     @Column(name = "transaction_type", nullable = false, updatable = false)
     private String type;
 
